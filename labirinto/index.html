@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+
+    <title>Timeline</title>
+
+    <link rel="stylesheet" type="text/css" href="css/timeline.css"/>
+    <script src="libs/modernizr/modernizr.js" type="text/javascript"></script>
+    <script type="text/javascript" src="libs/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="js/parseXML.js"></script>
+
+    <script language="javascript">
+        $(document).ready(function()
+        {
+            $.ajax({
+                type: "GET",
+                url: "data/dataProvider.xml",
+                dataType: "xml",
+                success: dados.parseXml
+            });
+        });      
+    </script>
+
+</head>
+<body style="margin-top:0px;">
+    <div class="geral">
+        <div class="saibaMais_bg" id="saibaMaisTxt">
+            <div class="tituloSaibaMais" id="tituloSaibaMais"></div>
+            <div class="textoSaibaMais" id="textoSaibaMais"></div>
+            <div class="voltar" onclick="voltar();"></div>
+        </div>
+
+        <div class="saibaMais_bg" id="saibaMaisImg">
+
+            <div class="voltar" onclick="voltar();"></div>
+
+            <div class="legendaSaibaMais">
+                <div class="texto_legenda" id="legendaImagem"></div>
+            </div>
+
+            <div class="centro">
+                <img id="imgSaibaMais" src="" alt="">
+                <div class="credito_imagem" id="creditoImagem"></div>
+            </div>
+        </div>
+
+        <div class="saibaMais_bg" id="saibaMaisVideo">
+
+            <div class="voltar" onclick="voltar();"></div>
+
+            <div class="legendaSaibaMais">
+                <div class="texto_legenda" id="legendaVideo"></div>
+            </div>
+
+            <div class="centro" id="playVideo">
+                <!--<video class="video_saibaMais" width="520" height="390" controls id="video">-->
+                    <!--&lt;!&ndash;<source id="url_video" src="" type="video/mp4">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button id="LED_video" class="no_video" rel=""><img id="img_video" src=""></button>&ndash;&gt;-->
+                <!--</video>-->
+            </div>
+            <div class="credito_video" id="creditoVideo"></div>
+        </div>
+
+        <div class="saibaMais_bg" id="saibaMaisAudio">
+
+            <div class="voltar" onclick="voltar();"></div>
+
+            <div class="legendaSaibaMais">
+                <div class="texto_legenda" id="legendaAudio"></div>
+            </div>
+
+
+            <div class="centro imagem_audio">
+                <img id="imgAudio" src="" alt="">
+                <div class="creditoAudio_img" id="creditoAudio_img"></div>
+            </div>
+
+            <div class="centro player_audio" id="playAudio">
+                <!--<audio controls id="audio">-->
+                    <!--<source rel="{audio_mp3}" type="audio/mpeg">-->
+                    <!--<button class="no_audio" rel="LED.playAudio('{audio_mp3}')"><img rel="{audio_img}"></button>-->
+                <!--</audio>-->
+            </div>
+            <div class="credito_audio" id="creditoAudio"></div>
+        </div>
+
+
+        <div class="scroll" id="scroll">
+            <div>
+                <div class="conteudo" id="conteudo">
+                    <div id="titulo" class="titulo"></div>
+                    <div id="texto" class="texto"><p></p></div>
+                </div>
+
+                <div class="saibaMais" id="saibaMais">
+                    <!--<input class="saibaMais" id="img_saibaMais" type="image" src="" alt="" onClick="saibaMais($tipo);" />-->
+                </div>
+
+                <div class="ancora" id="ancora" onclick="alert($numeroPagina)">
+                </div>
+
+            </div>
+
+            <div>
+              <div class="credito_bg" id="credito_bg">
+                <div class="texto_credito_bg" id="texto_credito_bg"></div>
+              </div>
+              <img id="img_bg" src="" alt="">
+            </div>
+        </div>
+    </div>
+
+    <div class="listaHolder" id="listaHolder">
+        <ul id="lista">
+
+        </ul>
+    </div>
+
+
+</body>
+</html>
