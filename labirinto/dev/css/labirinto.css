@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+/* ------------------------------------------------------------------------
+    Tamanho do Labirinto
+*/
+
+.tamanho{
+    width:1632px;
+    height:1216px;
+    position: absolute;
+}
+
+ul#lista {
+    width: auto;
+    padding: 0;
+    margin: 0 auto;
+}
+
+ul#lista li{
+    float:left;
+    list-style: none;
+}
+
+.button{
+    text-align: center;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    list-style-type: none;
+}
