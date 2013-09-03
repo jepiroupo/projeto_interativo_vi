@@ -64,5 +64,13 @@ function init () {
         visiteds[id].visited = true;
         var button =  $("#lista").find("li")[id];
         $(button).css("background-position", atual);
+
+        // top = $(button).offsetTop;
+        // left = $(button).offsetLeft;
+
+        // console.log("top: " + top + "left: " + left);
+
+        var pos = $(button).offset();
+        console.log("left: " + pos.left + " top: " + pos.top);
     }
 }
