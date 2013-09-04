@@ -34,7 +34,7 @@ function init () {
         var button =  $("#lista").find("li")[i];
         var pos = $(button).offset();
         console.log("left: " + pos.left + " top: " + pos.top);
-        if (pos.left == 0 || pos.left ==1600 || pos.top == 0 || pos.top == 1184){
+        if (pos.left == 0 || pos.left == 1600 || pos.left == 1312 || pos.top == 0 || pos.top == 1184){
             $(button).removeClass('caminho');
             $(button).addClass('parede');
         }
@@ -74,7 +74,7 @@ function init () {
             $(button).addClass('caminho');
         }
 
-        // var pos = $(button).offset();
-        // console.log("left: " + pos.left + " top: " + pos.top);
+        var pos = $(button).offset();
+        console.log("left: " + pos.left + " top: " + pos.top);
     }
 }
