@@ -22,10 +22,50 @@ ul#lista li{
     list-style: none;
 }
 
-.button{
-    text-align: center;
+.caminho{
     width: 32px;
     height: 32px;
     cursor: pointer;
     list-style-type: none;
+    background-position: 0px 0px;
+}
+
+.parede{
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    list-style-type: none;
+    background-position: -32px 0px;
+}
+
+.vermelho{
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    list-style-type: none;
+    background-position: -64px 0px;
+}
+
+.azul{
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    list-style-type: none;
+    background-position: -96px 0px;
+}
+
+.verde{
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    list-style-type: none;
+    background-position: -128px 0px;
+}
+
+.amarelo{
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    list-style-type: none;
+    background-position: -160px 0px;
 }

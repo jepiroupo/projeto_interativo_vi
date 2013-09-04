@@ -6,7 +6,7 @@ dados = {
 
         $(xml).find("parede").each(function()
         {
-            $('<li class="button" style="background-image: url(\'imgs/paredes.jpg\')"></li>').appendTo('#lista');
+            $('<li class="caminho" style="background-image: url(\'imgs/paredes.png\')"></li>').appendTo('#lista');
 
         });
 
@@ -22,53 +22,42 @@ dados = {
 }
 
 function init () {
-    var botaoWidth = "32";
-    var botaoHeight = "32";
-
-    //Estados do botão
-    var atual = "-" + botaoWidth + "px 0px";
-    var visto = "-" + (botaoWidth*2) + "px 0px";
-
-    var lastButton = -1;
-    var currentButton;
-    var visiteds = [];
-
-    $("#lista").find("li").css("width", botaoWidth+"px");
-    $("#lista").find("li").css("height", botaoHeight+"px");
 
     $("#lista").find("li").click(listaClick);
 
-    for(var i = 0; i < $("#lista").find("li").length; i++) visiteds.push({obj : $(this), visited : false});
-
-    navigate(0);
-
-    // fim barra de crédito
     function listaClick (e) {
-
-        // if(lastButton != -1){
-        //     var button =  $(this).parent().find("li")[currentButton];
-        //     $(button).css("background-position", visto);
-        // }
-
         e.preventDefault();
 
         navigate($(this).index());
     }
 
     function navigate(id){
-
-        //Botão atual
-        currentButton = id;
-        lastButton = id;
-
-        visiteds[id].visited = true;
         var button =  $("#lista").find("li")[id];
-        $(button).css("background-position", atual);
 
-        // top = $(button).offsetTop;
-        // left = $(button).offsetLeft;
-
-        // console.log("top: " + top + "left: " + left);
+        if ($(button).hasClass('caminho')){
+            $(button).removeClass('caminho');
+            $(button).addClass('parede');
+        }
+        else if ($(button).hasClass('parede')){
+            $(button).removeClass('parede');
+            $(button).addClass('vermelho');
+        }
+        else if ($(button).hasClass('vermelho')){
+            $(button).removeClass('vermelho');
+            $(button).addClass('azul');
+        }
+        else if ($(button).hasClass('azul')){
+            $(button).removeClass('azul');
+            $(button).addClass('verde');
+        }
+        else if ($(button).hasClass('verde')){
+            $(button).removeClass('verde');
+            $(button).addClass('amarelo');
+        }
+        else if ($(button).hasClass('amarelo')){
+            $(button).removeClass('amarelo');
+            $(button).addClass('caminho');
+        }
 
         var pos = $(button).offset();
         console.log("left: " + pos.left + " top: " + pos.top);
