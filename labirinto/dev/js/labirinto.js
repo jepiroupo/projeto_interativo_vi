@@ -25,6 +25,21 @@ function init () {
 
     $("#lista").find("li").click(listaClick);
 
+    var numLis = 0;
+        $("#lista").find("li").each(function(){
+            numLis += 1;
+        });
+
+    for (i=0; numLis; i++){
+        var button =  $("#lista").find("li")[i];
+        var pos = $(button).offset();
+        console.log("left: " + pos.left + " top: " + pos.top);
+        if (pos.left == 0 || pos.left ==1600 || pos.top == 0 || pos.top == 1184){
+            $(button).removeClass('caminho');
+            $(button).addClass('parede');
+        }
+    }
+
     function listaClick (e) {
         e.preventDefault();
 
@@ -59,7 +74,7 @@ function init () {
             $(button).addClass('caminho');
         }
 
-        var pos = $(button).offset();
-        console.log("left: " + pos.left + " top: " + pos.top);
+        // var pos = $(button).offset();
+        // console.log("left: " + pos.left + " top: " + pos.top);
     }
 }
