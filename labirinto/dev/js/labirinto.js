@@ -30,11 +30,11 @@ function init () {
             numLis += 1;
         });
 
-    for (i=0; numLis; i++){
+    for (i=0; i < numLis; i++){
         var button =  $("#lista").find("li")[i];
         var pos = $(button).offset();
-        console.log("left: " + pos.left + " top: " + pos.top);
-        if (pos.left == 0 || pos.left == 1600 || pos.left == 1312 || pos.top == 0 || pos.top == 1184){
+        //console.log("left: " + pos.left + " top: " + pos.top);
+        if (pos.left == 0 || pos.left == 1600 || pos.top == 0 || pos.top == 1184){
             $(button).removeClass('caminho');
             $(button).addClass('parede');
         }
@@ -77,4 +77,86 @@ function init () {
         var pos = $(button).offset();
         console.log("left: " + pos.left + " top: " + pos.top);
     }
+}
+
+
+
+function gerarXML(){
+
+    var numLis = 0;
+    $("#lista").find("li").each(function(){
+        numLis += 1;
+    });
+
+    var string;
+    for (i=0; i < numLis; i++){
+        var button =  $("#lista").find("li")[i];
+        var pos = $(button).offset();
+
+        if ($(button).hasClass('caminho')){
+            string += pos.left + "|" + pos.top + "|" + "caminho" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('parede')){
+            string += pos.left + "|" + pos.top + "|" + "parede" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('vermelho')){
+            string += pos.left + "|" + pos.top + "|" + "vermelho" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('azul')){
+            string += pos.left + "|" + pos.top + "|" + "azul" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('verde')){
+            string += pos.left + "|" + pos.top + "|" + "verde" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('amarelo')){
+            string += pos.left + "|" + pos.top + "|" + "amarelo" + "\n";
+            console.log(string);
+        }
+    }
+
+}
+
+function gerarXML(){
+
+    var numLis = 0;
+    $("#lista").find("li").each(function(){
+        numLis += 1;
+    });
+
+    var string;
+    for (i=0; i < numLis; i++){
+        var button =  $("#lista").find("li")[i];
+        var pos = $(button).offset();
+
+        if ($(button).hasClass('caminho')){
+            string += pos.left + "|" + pos.top + "|" + "caminho" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('parede')){
+            string += pos.left + "|" + pos.top + "|" + "parede" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('vermelho')){
+            string += pos.left + "|" + pos.top + "|" + "vermelho" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('azul')){
+            string += pos.left + "|" + pos.top + "|" + "azul" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('verde')){
+            string += pos.left + "|" + pos.top + "|" + "verde" + "\n";
+            console.log(string);
+        }
+        else if ($(button).hasClass('amarelo')){
+            string += pos.left + "|" + pos.top + "|" + "amarelo" + "\n";
+            console.log(string);
+        }
+    }
+
 }
