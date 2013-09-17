@@ -79,8 +79,6 @@ function init () {
     }
 }
 
-
-
 function gerarXML(){
 
     var numLis = 0;
@@ -89,74 +87,61 @@ function gerarXML(){
     });
 
     var string;
+    string = "";
+    var stringXML;
+    stringXML = "<dados>";
     for (i=0; i < numLis; i++){
         var button =  $("#lista").find("li")[i];
         var pos = $(button).offset();
 
         if ($(button).hasClass('caminho')){
             string += pos.left + "|" + pos.top + "|" + "caminho" + "\n";
-            console.log(string);
+            stringXML += "<info> \n";
+            stringXML += "<classe>caminho</classe> \n";
+            stringXML += "<left>"+pos.left+"</left> \n";
+            stringXML += "<top>"+pos.top+"</top> \n";
+            stringXML += "</info> \n"
         }
         else if ($(button).hasClass('parede')){
             string += pos.left + "|" + pos.top + "|" + "parede" + "\n";
-            console.log(string);
+            stringXML += "<info> \n";
+            stringXML += "<classe>parede</classe> \n";
+            stringXML += "<left>"+pos.left+"</left> \n";
+            stringXML += "<top>"+pos.top+"</top> \n";
+            stringXML += "</info> \n"
         }
         else if ($(button).hasClass('vermelho')){
             string += pos.left + "|" + pos.top + "|" + "vermelho" + "\n";
-            console.log(string);
+            stringXML += "<info> \n";
+            stringXML += "<classe>vermelho</classe> \n";
+            stringXML += "<left>"+pos.left+"</left> \n";
+            stringXML += "<top>"+pos.top+"</top> \n";
+            stringXML += "</info> \n"
         }
         else if ($(button).hasClass('azul')){
             string += pos.left + "|" + pos.top + "|" + "azul" + "\n";
-            console.log(string);
+            stringXML += "<info> \n";
+            stringXML += "<classe>caminho</classe> \n";
+            stringXML += "<left>"+pos.left+"</left> \n";
+            stringXML += "<top>"+pos.top+"</top> \n";
+            stringXML += "</info> \n"
         }
         else if ($(button).hasClass('verde')){
             string += pos.left + "|" + pos.top + "|" + "verde" + "\n";
-            console.log(string);
+            stringXML += "<info> \n";
+            stringXML += "<classe>caminho</classe> \n";
+            stringXML += "<left>"+pos.left+"</left> \n";
+            stringXML += "<top>"+pos.top+"</top> \n";
+            stringXML += "</info> \n"
         }
         else if ($(button).hasClass('amarelo')){
             string += pos.left + "|" + pos.top + "|" + "amarelo" + "\n";
-            console.log(string);
+            stringXML += "<info> \n";
+            stringXML += "<classe>caminho</classe> \n";
+            stringXML += "<left>"+pos.left+"</left> \n";
+            stringXML += "<top>"+pos.top+"</top> \n";
+            stringXML += "</info> \n"
         }
     }
-
-}
-
-function gerarXML(){
-
-    var numLis = 0;
-    $("#lista").find("li").each(function(){
-        numLis += 1;
-    });
-
-    var string;
-    for (i=0; i < numLis; i++){
-        var button =  $("#lista").find("li")[i];
-        var pos = $(button).offset();
-
-        if ($(button).hasClass('caminho')){
-            string += pos.left + "|" + pos.top + "|" + "caminho" + "\n";
-            console.log(string);
-        }
-        else if ($(button).hasClass('parede')){
-            string += pos.left + "|" + pos.top + "|" + "parede" + "\n";
-            console.log(string);
-        }
-        else if ($(button).hasClass('vermelho')){
-            string += pos.left + "|" + pos.top + "|" + "vermelho" + "\n";
-            console.log(string);
-        }
-        else if ($(button).hasClass('azul')){
-            string += pos.left + "|" + pos.top + "|" + "azul" + "\n";
-            console.log(string);
-        }
-        else if ($(button).hasClass('verde')){
-            string += pos.left + "|" + pos.top + "|" + "verde" + "\n";
-            console.log(string);
-        }
-        else if ($(button).hasClass('amarelo')){
-            string += pos.left + "|" + pos.top + "|" + "amarelo" + "\n";
-            console.log(string);
-        }
-    }
-
+    console.log(string);
 }
