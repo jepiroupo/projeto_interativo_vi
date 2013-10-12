@@ -96,7 +96,15 @@ function gerarXML(){
         var pos = $(button).offset();
 
         if ($(button).hasClass('caminho')){
-            string += pos.left + "|" + pos.top + "|" + "caminho" + "\r\n";
+            if (pos.left > 0 && pos.left < 10){
+                string += "000" + pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
+            }else if (pos.left > 10 && pos.left < 100){
+                string += "00" + pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
+            }else if (pos.left > 100 && pos.left < 1000){
+                string += "0" + pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
+            }else{
+                string += pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
+            }
             stringXML += "<info> \r\n";
             stringXML += "<classe>caminho</classe> \r\n";
             stringXML += "<left>"+pos.left+"</left> \r\n";
@@ -104,51 +112,91 @@ function gerarXML(){
             stringXML += "</info> \r\n"
         }
         else if ($(button).hasClass('parede')){
-            string += pos.left + "|" + pos.top + "|" + "parede" + "\r\n";
-            stringXML += "<info> \r\n";
-            stringXML += "<classe>parede</classe> \r\n";
-            stringXML += "<left>"+pos.left+"</left> \r\n";
-            stringXML += "<top>"+pos.top+"</top> \r\n";
-            stringXML += "</info> \r\n"
+            if (pos.left > 0 && pos.left < 10){
+                string += "000" + pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
+            }else if (pos.left > 10 && pos.left < 100){
+                string += "00" + pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
+            }else if (pos.left > 100 && pos.left < 1000){
+                string += "0" + pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
+            }else{
+                string += pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
+            }
+            stringXML += "\t<info> \r\n";
+            stringXML += "\t\t<classe>parede</classe> \r\n";
+            stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
+            stringXML += "\t\t<top>"+pos.top+"</top> \r\n";
+            stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('vermelho')){
-            string += pos.left + "|" + pos.top + "|" + "vermelho" + "\r\n";
-            stringXML += "<info> \r\n";
-            stringXML += "<classe>vermelho</classe> \r\n";
-            stringXML += "<left>"+pos.left+"</left> \r\n";
-            stringXML += "<top>"+pos.top+"</top> \r\n";
-            stringXML += "</info> \r\n"
+            if (pos.left > 0 && pos.left < 10){
+                string += "000" + pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
+            }else if (pos.left > 10 && pos.left < 100){
+                string += "00" + pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
+            }else if (pos.left > 100 && pos.left < 1000){
+                string += "0" + pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
+            }else{
+                string += pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
+            }
+            stringXML += "\t<info> \r\n";
+            stringXML += "\t\t<classe>vermelho</classe> \r\n";
+            stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
+            stringXML += "\t\t<top>"+pos.top+"</top> \r\n";
+            stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('azul')){
-            string += pos.left + "|" + pos.top + "|" + "azul" + "\r\n";
-            stringXML += "<info> \r\n";
-            stringXML += "<classe>caminho</classe> \r\n";
-            stringXML += "<left>"+pos.left+"</left> \r\n";
-            stringXML += "<top>"+pos.top+"</top> \r\n";
-            stringXML += "</info> \r\n"
+            if (pos.left > 0 && pos.left < 10){
+                string += "000" + pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
+            }else if (pos.left > 10 && pos.left < 100){
+                string += "00" + pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
+            }else if (pos.left > 100 && pos.left < 1000){
+                string += "0" + pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
+            }else{
+                string += pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
+            }
+            stringXML += "\t<info> \r\n";
+            stringXML += "\t\t<classe>caminho</classe> \r\n";
+            stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
+            stringXML += "\t\t<top>"+pos.top+"</top> \r\n";
+            stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('verde')){
-            string += pos.left + "|" + pos.top + "|" + "verde" + "\r\n";
-            stringXML += "<info> \r\n";
-            stringXML += "<classe>caminho</classe> \r\n";
-            stringXML += "<left>"+pos.left+"</left> \r\n";
-            stringXML += "<top>"+pos.top+"</top> \r\n";
-            stringXML += "</info> \r\n"
+            if (pos.left > 0 && pos.left < 10){
+                string += "000" + pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
+            }else if (pos.left > 10 && pos.left < 100){
+                string += "00" + pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
+            }else if (pos.left > 100 && pos.left < 1000){
+                string += "0" + pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
+            }else{
+                string += pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
+            }
+            stringXML += "\t<info> \r\n";
+            stringXML += "\t\t<classe>caminho</classe> \r\n";
+            stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
+            stringXML += "\t\t<top>"+pos.top+"</top> \r\n";
+            stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('amarelo')){
-            string += pos.left + "|" + pos.top + "|" + "amarelo" + "\r\n";
-            stringXML += "<info> \r\n";
-            stringXML += "<classe>caminho</classe> \r\n";
-            stringXML += "<left>"+pos.left+"</left> \r\n";
-            stringXML += "<top>"+pos.top+"</top> \r\n";
-            stringXML += "</info> \r\n"
+            if (pos.left > 0 && pos.left < 10){
+                string += "000" + pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
+            }else if (pos.left > 10 && pos.left < 100){
+                string += "00" + pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
+            }else if (pos.left > 100 && pos.left < 1000){
+                string += "0" + pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
+            }else{
+                string += pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
+            }
+            stringXML += "\t<info> \r\n";
+            stringXML += "\t\t<classe>caminho</classe> \r\n";
+            stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
+            stringXML += "\t\t<top>"+pos.top+"</top> \r\n";
+            stringXML += "\t</info> \r\n"
         }
     }
     stringXML += "</dados>";
-
-    var arquivo = "teste";
-    escreverArquivo();
-    escreverXML();
+    console.log(string);
+    //var arquivo = "teste";
+    //escreverArquivo();
+    //escreverXML();
 }
 
 function escreverArquivo() {  
