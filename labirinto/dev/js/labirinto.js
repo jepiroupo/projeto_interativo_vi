@@ -96,15 +96,27 @@ function gerarXML(){
         var pos = $(button).offset();
 
         if ($(button).hasClass('caminho')){
-            if (pos.left > 0 && pos.left < 10){
-                string += "000" + pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
-            }else if (pos.left > 10 && pos.left < 100){
-                string += "00" + pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
-            }else if (pos.left > 100 && pos.left < 1000){
-                string += "0" + pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
+            if (pos.left >= 0 && pos.left < 10){
+                string += "000" + pos.left;
+            }else if (pos.left >= 10 && pos.left < 100){
+                string += "00" + pos.left;
+            }else if (pos.left >= 100 && pos.left < 1000){
+                string += "0" + pos.left;
             }else{
-                string += pos.left + "" + pos.top + "" + "0" + "\r\n";//caminho
+                string += pos.left;
             }
+
+            if (pos.top >= 0 && pos.top < 10){
+                string += "000" + pos.top;
+            }else if (pos.top >= 10 && pos.top < 100){
+                string += "00" + pos.top;
+            }else if (pos.top >= 100 && pos.top < 1000){
+                string += "0" + pos.top;
+            }else{
+                string += pos.top;
+            }
+
+            string += "0" + "\r\n"; // 0 = caminho
             stringXML += "<info> \r\n";
             stringXML += "<classe>caminho</classe> \r\n";
             stringXML += "<left>"+pos.left+"</left> \r\n";
@@ -112,15 +124,27 @@ function gerarXML(){
             stringXML += "</info> \r\n"
         }
         else if ($(button).hasClass('parede')){
-            if (pos.left > 0 && pos.left < 10){
-                string += "000" + pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
-            }else if (pos.left > 10 && pos.left < 100){
-                string += "00" + pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
-            }else if (pos.left > 100 && pos.left < 1000){
-                string += "0" + pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
+            if (pos.left >= 0 && pos.left < 10){
+                string += "000" + pos.left;
+            }else if (pos.left >= 10 && pos.left < 100){
+                string += "00" + pos.left;
+            }else if (pos.left >= 100 && pos.left < 1000){
+                string += "0" + pos.left;
             }else{
-                string += pos.left + "" + pos.top + "" + "1" + "\r\n";//parede
+                string += pos.left;
             }
+
+            if (pos.top >= 0 && pos.top < 10){
+                string += "000" + pos.top;
+            }else if (pos.top >= 10 && pos.top < 100){
+                string += "00" + pos.top;
+            }else if (pos.top >= 100 && pos.top < 1000){
+                string += "0" + pos.top;
+            }else{
+                string += pos.top;
+            }
+
+            string += "1" + "\r\n"; // 1 = parede
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>parede</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -128,15 +152,27 @@ function gerarXML(){
             stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('vermelho')){
-            if (pos.left > 0 && pos.left < 10){
-                string += "000" + pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
-            }else if (pos.left > 10 && pos.left < 100){
-                string += "00" + pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
-            }else if (pos.left > 100 && pos.left < 1000){
-                string += "0" + pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
+            if (pos.left >= 0 && pos.left < 10){
+                string += "000" + pos.left;
+            }else if (pos.left >= 10 && pos.left < 100){
+                string += "00" + pos.left;
+            }else if (pos.left >= 100 && pos.left < 1000){
+                string += "0" + pos.left;
             }else{
-                string += pos.left + "" + pos.top + "" + "2" + "\r\n";//vermelho
+                string += pos.left;
             }
+
+            if (pos.top >= 0 && pos.top < 10){
+                string += "000" + pos.top;
+            }else if (pos.top >= 10 && pos.top < 100){
+                string += "00" + pos.top;
+            }else if (pos.top >= 100 && pos.top < 1000){
+                string += "0" + pos.top;
+            }else{
+                string += pos.top;
+            }
+
+            string += "2" + "\r\n"; // 0 = vermelho
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>vermelho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -144,15 +180,27 @@ function gerarXML(){
             stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('azul')){
-            if (pos.left > 0 && pos.left < 10){
-                string += "000" + pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
-            }else if (pos.left > 10 && pos.left < 100){
-                string += "00" + pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
-            }else if (pos.left > 100 && pos.left < 1000){
-                string += "0" + pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
+            if (pos.left >= 0 && pos.left < 10){
+                string += "000" + pos.left;
+            }else if (pos.left >= 10 && pos.left < 100){
+                string += "00" + pos.left;
+            }else if (pos.left >= 100 && pos.left < 1000){
+                string += "0" + pos.left;
             }else{
-                string += pos.left + "" + pos.top + "" + "3" + "\r\n";//azul
+                string += pos.left;
             }
+
+            if (pos.top >= 0 && pos.top < 10){
+                string += "000" + pos.top;
+            }else if (pos.top >= 10 && pos.top < 100){
+                string += "00" + pos.top;
+            }else if (pos.top >= 100 && pos.top < 1000){
+                string += "0" + pos.top;
+            }else{
+                string += pos.top;
+            }
+
+            string += "3" + "\r\n"; // 0 = azul
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -160,15 +208,27 @@ function gerarXML(){
             stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('verde')){
-            if (pos.left > 0 && pos.left < 10){
-                string += "000" + pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
-            }else if (pos.left > 10 && pos.left < 100){
-                string += "00" + pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
-            }else if (pos.left > 100 && pos.left < 1000){
-                string += "0" + pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
+            if (pos.left >= 0 && pos.left < 10){
+                string += "000" + pos.left;
+            }else if (pos.left >= 10 && pos.left < 100){
+                string += "00" + pos.left;
+            }else if (pos.left >= 100 && pos.left < 1000){
+                string += "0" + pos.left;
             }else{
-                string += pos.left + "" + pos.top + "" + "4" + "\r\n";//verde
+                string += pos.left;
             }
+
+            if (pos.top >= 0 && pos.top < 10){
+                string += "000" + pos.top;
+            }else if (pos.top >= 10 && pos.top < 100){
+                string += "00" + pos.top;
+            }else if (pos.top >= 100 && pos.top < 1000){
+                string += "0" + pos.top;
+            }else{
+                string += pos.top;
+            }
+
+            string += "4" + "\r\n"; // 0 = verde
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -176,15 +236,27 @@ function gerarXML(){
             stringXML += "\t</info> \r\n"
         }
         else if ($(button).hasClass('amarelo')){
-            if (pos.left > 0 && pos.left < 10){
-                string += "000" + pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
-            }else if (pos.left > 10 && pos.left < 100){
-                string += "00" + pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
-            }else if (pos.left > 100 && pos.left < 1000){
-                string += "0" + pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
+            if (pos.left >= 0 && pos.left < 10){
+                string += "000" + pos.left;
+            }else if (pos.left >= 10 && pos.left < 100){
+                string += "00" + pos.left;
+            }else if (pos.left >= 100 && pos.left < 1000){
+                string += "0" + pos.left;
             }else{
-                string += pos.left + "" + pos.top + "" + "5" + "\r\n";//amarelo
+                string += pos.left;
             }
+
+            if (pos.top >= 0 && pos.top < 10){
+                string += "000" + pos.top;
+            }else if (pos.top >= 10 && pos.top < 100){
+                string += "00" + pos.top;
+            }else if (pos.top >= 100 && pos.top < 1000){
+                string += "0" + pos.top;
+            }else{
+                string += pos.top;
+            }
+
+            string += "5" + "\r\n"; // 0 = amarelo
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -194,21 +266,20 @@ function gerarXML(){
     }
     stringXML += "</dados>";
     console.log(string);
-    //var arquivo = "teste";
-    //escreverArquivo();
-    //escreverXML();
+    escreverArquivo();
+    escreverXML();
 }
 
 function escreverArquivo() {  
     var fso  = new ActiveXObject("Scripting.FileSystemObject");
-    var fh = fso.CreateTextFile("C:/Users/jessica.npfrancisco/Documents/GitHub/projeto_interativo_vi/labirinto/dev/labirinto.txt", true); 
+    var fh = fso.CreateTextFile("C:/Users/Jessica/Documents/GitHub/projeto_interativo_vi/labirinto/dev/labirinto.txt", true); 
     fh.WriteLine(string);
     fh.Close(); 
 }
 
 function escreverXML() {  
     var fso  = new ActiveXObject("Scripting.FileSystemObject");
-    var fh = fso.CreateTextFile("C:/Users/jessica.npfrancisco/Documents/GitHub/projeto_interativo_vi/labirinto/dev/labirinto.xml", true); 
+    var fh = fso.CreateTextFile("C:/Users/Jessica/Documents/GitHub/projeto_interativo_vi/labirinto/dev/labirinto.xml", true); 
     fh.WriteLine(stringXML);
     fh.Close(); 
 }
