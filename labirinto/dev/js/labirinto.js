@@ -2,7 +2,6 @@ dados = {
 
     labirinto: function (xml){
         //<background>
-        width = [], height = [],
 
         $(xml).find("parede").each(function()
         {
@@ -14,8 +13,6 @@ dados = {
         $("#lista").find("li").each(function(){
             numLis += 1;
         });
-
-        $("#lista").width(String(width[0]).split("px").join("") * numLis);
 
         init();
     }
@@ -34,7 +31,7 @@ function init () {
         var button =  $("#lista").find("li")[i];
         var pos = $(button).offset();
         //console.log("left: " + pos.left + " top: " + pos.top);
-        if (pos.left == 0 || pos.left == 1600 || pos.top == 0 || pos.top == 1184){
+        if (pos.left == 0 || pos.left == 1088 || pos.top == 0 || pos.top == 736){
             $(button).removeClass('caminho');
             $(button).addClass('parede');
         }
@@ -116,7 +113,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "0" + "\r\n"; // 0 = caminho
+            string += "0"; // 0 = caminho
             stringXML += "<info> \r\n";
             stringXML += "<classe>caminho</classe> \r\n";
             stringXML += "<left>"+pos.left+"</left> \r\n";
@@ -144,7 +141,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "1" + "\r\n"; // 1 = parede
+            string += "1"; // 1 = parede
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>parede</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -172,7 +169,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "2" + "\r\n"; // 0 = vermelho
+            string += "2"; // 0 = vermelho
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>vermelho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -200,7 +197,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "3" + "\r\n"; // 0 = azul
+            string += "3"; // 0 = azul
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -228,7 +225,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "4" + "\r\n"; // 0 = verde
+            string += "4"; // 0 = verde
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -256,7 +253,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "5" + "\r\n"; // 0 = amarelo
+            string += "5"; // 0 = amarelo
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
