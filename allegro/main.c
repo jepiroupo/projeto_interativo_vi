@@ -2,12 +2,26 @@
 #include <allegro5/allegro.h>
 
 const float FPS = 15;
-const int SCREEN_W = 800;
-const int SCREEN_H = 600;
+const int SCREEN_W = 1415;
+const int SCREEN_H = 734;
 const int SELETOR_SIZE = 57;
+const int margem_x = 15;
+const int margem_y = 15;
 enum MYKEYS {
    KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT
 };
+
+ALLEGRO_BITMAP *parede;
+ALLEGRO_BITMAP *caminho;
+ALLEGRO_BITMAP *p_azul;
+ALLEGRO_BITMAP *p_verde;
+ALLEGRO_BITMAP *p_amarelo;
+ALLEGRO_BITMAP *p_vermelho;
+ALLEGRO_BITMAP *pa_azul;
+ALLEGRO_BITMAP *pa_verde;
+ALLEGRO_BITMAP *pa_amarelo;
+ALLEGRO_BITMAP *pa_vermelho;
+ALLEGRO_BITMAP *background;
 
 void lerConf(int mapa[840][3])
 {
@@ -72,13 +86,43 @@ void lerConf(int mapa[840][3])
    fclose(fp);
 }
 
+void inicializaBitmaps()
+{
+	parede = al_load_bitmap("img/parede.png");
+	caminho = al_load_bitmap("img/caminho.png");
+	p_azul = al_load_bitmap("img/p_azul.png");
+	p_verde = al_load_bitmap("img/p_verde.png");
+	p_amarelo = al_load_bitmap("img/p_amarelo.png");
+	p_vermelho = al_load_bitmap("img/p_vermelho.png");
+	pa_azul = al_load_bitmap("img/pa_azul.png");
+	pa_verde = al_load_bitmap("img/pa_verde.png");
+	pa_amarelo = al_load_bitmap("img/pa_amarelo.png");
+	pa_vermelho = al_load_bitmap("img/pa_vermelho.png");
+}
+
+int desenhaMapa(int mapa[840][3])
+{
+	for(int i = 0; i < 840; i++)
+	{
+		if((int)mapa[i][2] == 0)
+		{
+			al_draw_bitmap(caminho, (float)(mapa[i][0] + margem_x), (float)(mapa[i][1] + margem_y), 0);
+		}
+		else if((int)mapa[i][2] == 1)
+		{
+			al_draw_bitmap(parede, (float)(mapa[i][0] + margem_x), (float)(mapa[i][1] + margem_y), 0);
+		}
+	}
+
+}
+
 int main(int argc, char **argv)
 {
     ALLEGRO_DISPLAY *display = NULL;
     ALLEGRO_EVENT_QUEUE *event_queue = NULL;
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_BITMAP *seletor = NULL;
-    ALLEGRO_BITMAP *background = NULL;
+
     float tamanho = 25;
     float espacamento = SELETOR_SIZE + 4;
     float seletor_x = 678;
@@ -89,7 +133,7 @@ int main(int argc, char **argv)
     float posicao = 0;
 	int mapa[840][3];
 
-
+	inicializaBitmaps();
 	lerConf(mapa);
 
 	//Inicia o allegro
@@ -119,6 +163,8 @@ int main(int argc, char **argv)
     seletor = al_load_bitmap("img/selecao.png");
 	//Desenha o seletor na posição (658,5)
     al_draw_bitmap(seletor, 658, 5, 0);
+
+	desenhaMapa(mapa);
 
     //Registra os eventos
     al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -226,6 +272,7 @@ int main(int argc, char **argv)
             redraw = false;
             al_draw_bitmap(background, 0, 0, 0);
             al_draw_bitmap(seletor, seletor_x, seletor_y, 0);
+			desenhaMapa(mapa);
             al_flip_display();
         }
     }
