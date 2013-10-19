@@ -1,0 +1,6 @@
+0 - caminho
+1 - parede
+2 - vermelho
+3 - azul
+4 - verde
+5 - amarelo

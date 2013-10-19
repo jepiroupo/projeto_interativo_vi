@@ -169,7 +169,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "2"; // 0 = vermelho
+            string += "2"; // 2 = vermelho
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>vermelho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -197,7 +197,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "3"; // 0 = azul
+            string += "3"; // 3 = azul
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -225,7 +225,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "4"; // 0 = verde
+            string += "4"; // 4 = verde
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -253,7 +253,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "5"; // 0 = amarelo
+            string += "5"; // 5 = amarelo
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
