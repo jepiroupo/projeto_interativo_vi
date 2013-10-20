@@ -23,7 +23,7 @@ ALLEGRO_BITMAP *pa_amarelo;
 ALLEGRO_BITMAP *pa_vermelho;
 ALLEGRO_BITMAP *background;
 
-void lerConf(int mapa[840][3])
+void lerConf(int mapa[770][3])
 {
 	char linha;
 	
@@ -33,10 +33,10 @@ void lerConf(int mapa[840][3])
 	char aux_p[4];
 	char aux_t[2];
 	int contador = 0;
-
+	
 	int contador_item = 0;
 
-	fp = fopen("map/map1.txt","r");
+	fp = fopen("map/map2.txt","r");
 
 	if( fp == NULL )
 	{
@@ -47,6 +47,8 @@ void lerConf(int mapa[840][3])
 	
 	while((linha = fgetc(fp)) != EOF )
 	{
+		if(contador_item == 770){break;}
+
 		if(contador < 4)
 		{
 			aux_p[contador] = linha;
@@ -100,18 +102,28 @@ void inicializaBitmaps()
 	pa_vermelho = al_load_bitmap("img/pa_vermelho.png");
 }
 
-int desenhaMapa(int mapa[840][3])
+int desenhaMapa(int mapa[770][3])
 {
-	for(int i = 0; i < 840; i++)
+	int x, y, tipo;
+
+	for(int i = 0; i < 770; i++)
 	{
-		if((int)mapa[i][2] == 0)
-		{
-			al_draw_bitmap(caminho, (float)(mapa[i][0] + margem_x), (float)(mapa[i][1] + margem_y), 0);
-		}
-		else if((int)mapa[i][2] == 1)
-		{
-			al_draw_bitmap(parede, (float)(mapa[i][0] + margem_x), (float)(mapa[i][1] + margem_y), 0);
-		}
+		x = mapa[i][0];
+		y = mapa[i][1];
+		tipo = mapa[i][2];
+		
+		if(tipo == 0)
+			al_draw_bitmap(caminho, x + margem_x, y + margem_y, 0);
+		else if(tipo == 1)
+			al_draw_bitmap(parede, x + margem_x, y + margem_y, 0);
+		else if(tipo == 2)
+			al_draw_bitmap(p_vermelho, x + margem_x, y + margem_y, 0);
+		else if(tipo == 3)
+			al_draw_bitmap(p_azul, x + margem_x, y + margem_y, 0);
+		else if(tipo == 4)
+			al_draw_bitmap(p_verde, x + margem_x, y + margem_y, 0);
+		else if(tipo == 5)
+			al_draw_bitmap(p_amarelo, x + margem_x, y + margem_y, 0);
 	}
 
 }
@@ -131,16 +143,17 @@ int main(int argc, char **argv)
     bool redraw = true;
     bool doexit = false;
     float posicao = 0;
-	int mapa[840][3];
+	int mapa[770][3];
 
-	inicializaBitmaps();
-	lerConf(mapa);
+	
 
 	//Inicia o allegro
     al_init();
     al_init_image_addon();
     al_install_keyboard();
-    al_init_image_addon();
+
+	inicializaBitmaps();
+	lerConf(mapa);
 
 	//Cria a lista de eventos
     event_queue = al_create_event_queue();
