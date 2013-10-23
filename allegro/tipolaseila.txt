@@ -1,6 +1,6 @@
-0 - caminho
-1 - parede
-2 - vermelho
-3 - azul
-4 - verde
-5 - amarelo
+00 - caminho
+01 - parede
+02 - vermelho
+03 - azul
+04 - verde
+05 - amarelo
