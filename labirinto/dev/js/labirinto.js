@@ -30,8 +30,7 @@ function init () {
     for (i=0; i < numLis; i++){
         var button =  $("#lista").find("li")[i];
         var pos = $(button).offset();
-        //console.log("left: " + pos.left + " top: " + pos.top);
-        if (pos.left == 0 || pos.left == 1088 || pos.top == 0 || pos.top == 736){
+        if (pos.left == 0 || pos.left == 1088 || pos.top == 0 || pos.top == 672){
             $(button).removeClass('caminho');
             $(button).addClass('parede');
         }
@@ -113,7 +112,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "0"; // 0 = caminho
+            string += "00"; // 0 = caminho
             stringXML += "<info> \r\n";
             stringXML += "<classe>caminho</classe> \r\n";
             stringXML += "<left>"+pos.left+"</left> \r\n";
@@ -141,7 +140,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "1"; // 1 = parede
+            string += "01"; // 1 = parede
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>parede</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -169,7 +168,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "2"; // 2 = vermelho
+            string += "02"; // 2 = vermelho
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>vermelho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -197,7 +196,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "3"; // 3 = azul
+            string += "03"; // 3 = azul
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -225,7 +224,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "4"; // 4 = verde
+            string += "04"; // 4 = verde
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
@@ -253,7 +252,7 @@ function gerarXML(){
                 string += pos.top;
             }
 
-            string += "5"; // 5 = amarelo
+            string += "05"; // 5 = amarelo
             stringXML += "\t<info> \r\n";
             stringXML += "\t\t<classe>caminho</classe> \r\n";
             stringXML += "\t\t<left>"+pos.left+"</left> \r\n";
