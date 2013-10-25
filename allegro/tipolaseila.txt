@@ -4,3 +4,8 @@
 3 - azul
 4 - verde
 5 - amarelo
+6 - porta aberta vermelho
+7 - porta aberta azul
+8 - porta aberta verde
+9 - porta aberta amarelo
+10 - dog
