@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <allegro5/allegro.h>
 
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
+
+const float SPRITE_SIZE = 32;
+int shift = 0;
 const float FPS = 80;
 const int SCREEN_W = 1415;
 const int SCREEN_H = 734;
@@ -33,6 +38,10 @@ ALLEGRO_BITMAP *pa_vermelho;
 ALLEGRO_BITMAP *background;
 
 ALLEGRO_BITMAP *cachorro;
+ALLEGRO_BITMAP *cachorro_lado;
+ALLEGRO_BITMAP *cachorro_cima;
+ALLEGRO_BITMAP *cachorro_baixo;
+ALLEGRO_BITMAP *sprite;
 /* 0 - Cima | 1 - Direita | 2 - Baixo | 3 - Esquerda */
 int direcao_atual = 3;
 int pos_x_cachorro = 0;
@@ -40,391 +49,417 @@ int pos_y_cachorro = 0;
 
 void lerConf(int mapa[770][3])
 {
-	char linha;
-	
-	FILE *fp;
+    char linha;
 
-	int pos_x, pos_y, tipo;
-	char aux_p[4];
-	char aux_t[3];
-	int contador = 0;
-	
-	int contador_item = 0;
+    FILE *fp;
 
-	fp = fopen("map/map1.txt","r");
+    int pos_x, pos_y, tipo;
+    char aux_p[4];
+    char aux_t[3];
+    int contador = 0;
 
-	if( fp == NULL )
-	{
-		perror("Error while opening the file.\n");
-		exit(EXIT_FAILURE);
-	}
+    int contador_item = 0;
 
-	
-	while((linha = fgetc(fp)) != EOF )
-	{
-		if(contador_item == 770){break;}
+    fp = fopen("map/map1.txt","r");
 
-		if(contador < 4)
-			aux_p[contador] = linha;
-		else if(contador < 8)
-			aux_p[contador - 4] = linha;
-		else
-			aux_t[contador - 8] = linha;
+    if( fp == NULL )
+    {
+        perror("Error while opening the file.\n");
+        exit(EXIT_FAILURE);
+    }
 
-		contador++;
 
-		if(contador == 4)
-		{
-			sscanf(aux_p, "%d", &pos_x);
-			mapa[contador_item][0] = pos_x;
-		}
-		else if(contador == 8)
-		{
-			sscanf(aux_p, "%d", &pos_y);
-			mapa[contador_item][1] = pos_y;
-		}
-		else if(contador == 10)
-		{
-			contador = 0;
-			sscanf(aux_t, "%d", &tipo);
-//			printf("pos_x: %d\npos_y: %d\ntipo: %d\n", pos_x, pos_y, tipo);
-//			printf("contador: %d\n", contador_item);
-			mapa[contador_item][2] = tipo;
-			contador_item = contador_item + 1;
-		}
-	}
+    while((linha = fgetc(fp)) != EOF )
+    {
+        if(contador_item == 770){break;}
+
+        if(contador < 4)
+            aux_p[contador] = linha;
+        else if(contador < 8)
+            aux_p[contador - 4] = linha;
+        else
+            aux_t[contador - 8] = linha;
+
+        contador++;
+
+        if(contador == 4)
+        {
+            sscanf(aux_p, "%d", &pos_x);
+            mapa[contador_item][0] = pos_x;
+        }
+        else if(contador == 8)
+        {
+            sscanf(aux_p, "%d", &pos_y);
+            mapa[contador_item][1] = pos_y;
+        }
+        else if(contador == 10)
+        {
+            contador = 0;
+            sscanf(aux_t, "%d", &tipo);
+//            printf("pos_x: %d\npos_y: %d\ntipo: %d\n", pos_x, pos_y, tipo);
+//            printf("contador: %d\n", contador_item);
+            mapa[contador_item][2] = tipo;
+            contador_item = contador_item + 1;
+        }
+    }
 
    fclose(fp);
 }
 
 void inicializaBitmaps()
 {
-	parede = al_load_bitmap("img/parede.png");
-	caminho = al_load_bitmap("img/caminho.png");
-	p_azul = al_load_bitmap("img/p_azul.png");
-	p_verde = al_load_bitmap("img/p_verde.png");
-	p_amarelo = al_load_bitmap("img/p_amarelo.png");
-	p_vermelho = al_load_bitmap("img/p_vermelho.png");
-	pa_azul = al_load_bitmap("img/pa_azul.png");
-	pa_verde = al_load_bitmap("img/pa_verde.png");
-	pa_amarelo = al_load_bitmap("img/pa_amarelo.png");
-	pa_vermelho = al_load_bitmap("img/pa_vermelho.png");
+    parede = al_load_bitmap("img/parede.png");
+    caminho = al_load_bitmap("img/caminho.png");
+    p_azul = al_load_bitmap("img/p_azul.png");
+    p_verde = al_load_bitmap("img/p_verde.png");
+    p_amarelo = al_load_bitmap("img/p_amarelo.png");
+    p_vermelho = al_load_bitmap("img/p_vermelho.png");
+    pa_azul = al_load_bitmap("img/pa_azul.png");
+    pa_verde = al_load_bitmap("img/pa_verde.png");
+    pa_amarelo = al_load_bitmap("img/pa_amarelo.png");
+    pa_vermelho = al_load_bitmap("img/pa_vermelho.png");
 
-	cachorro = al_load_bitmap("img/cachorro/cachorro_frente_0001.png");
+    //cachorro = al_load_bitmap("img/cachorro/sprites/cachorro_lado.png");
+    cachorro_lado = al_load_bitmap("img/cachorro/sprites/cachorro_lado.png");
+    cachorro_cima = al_load_bitmap("img/cachorro/sprites/cachorro_fundo.png");
+    cachorro_baixo = al_load_bitmap("img/cachorro/sprites/cachorro_frente.png");
 }
 
 bool validaProximo(int mapa[770][3], int posicao)
 {
-	if(mapa[posicao][2] == 0)
-		return true;
-	else if(mapa[posicao][2] == 6)
-		return true;
-	else if(mapa[posicao][2] == 7)
-		return true;
-	else if(mapa[posicao][2] == 8)
-		return true;
-	else if(mapa[posicao][2] == 9)
-		return true;
-	else if(mapa[posicao][2] == 10)
-		return true;
-	return false;
+    if(mapa[posicao][2] == 0)
+        return true;
+    else if(mapa[posicao][2] == 6)
+        return true;
+    else if(mapa[posicao][2] == 7)
+        return true;
+    else if(mapa[posicao][2] == 8)
+        return true;
+    else if(mapa[posicao][2] == 9)
+        return true;
+    else if(mapa[posicao][2] == 10)
+        return true;
+    return false;
 }
 
 int atualizaCachorro()
 {
-	if(direcao_atual == 0)
-		pos_y_cachorro = pos_y_cachorro - 32;
-	else if(direcao_atual == 1)
-		pos_x_cachorro = pos_x_cachorro + 32;
-	else if(direcao_atual == 2)
-		pos_y_cachorro = pos_y_cachorro + 32;
-	else if(direcao_atual == 3)
-		pos_x_cachorro = pos_x_cachorro - 32;
+    int flags = 0;
+    if (shift >= 9){
+        shift = 0;
+    }else{
+        shift += 1;
+    }
+    if(direcao_atual == 0){
+        flags = 0;
+        pos_y_cachorro = pos_y_cachorro - 32;
+        al_destroy_bitmap(sprite);
+        sprite = al_create_sub_bitmap(cachorro_cima, shift * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
+    }
+    else if(direcao_atual == 1){
+        flags = ALLEGRO_FLIP_HORIZONTAL;
+        pos_x_cachorro = pos_x_cachorro + 32;
+        al_destroy_bitmap(sprite);
+        sprite = al_create_sub_bitmap(cachorro_lado, shift * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
+    }
+    else if(direcao_atual == 2){
+        flags = 0;
+        pos_y_cachorro = pos_y_cachorro + 32;
+        al_destroy_bitmap(sprite);
+        sprite = al_create_sub_bitmap(cachorro_baixo, shift * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
+    }
+    else if(direcao_atual == 3){
+        flags = 0;
+        pos_x_cachorro = pos_x_cachorro - 32;
+        al_destroy_bitmap(sprite);
+        sprite = al_create_sub_bitmap(cachorro_lado, shift * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
+    }
 
-	al_draw_bitmap(cachorro, pos_x_cachorro + margem_x, pos_y_cachorro + margem_y, 0);
+    al_draw_bitmap(sprite, pos_x_cachorro + margem_x, pos_y_cachorro + margem_y, flags);
 }
 
 void movimento(int mapa[770][3])
 {
-	int aux_x = pos_x_cachorro/32;
-	int aux_y = pos_y_cachorro/32;
-	int aux = 0;
+    int aux_x = pos_x_cachorro/32;
+    int aux_y = pos_y_cachorro/32;
+    int aux = 0;
 
-	bool v_cima=false, v_direita=false, v_baixo=false, v_esquerda=false;
-	
-	v_cima = validaProximo(mapa, ((aux_y-1)*35)+aux_x);
-	v_direita = validaProximo(mapa, (aux_y*35)+aux_x+1);
-	v_baixo = validaProximo(mapa, ((aux_y+1)*35)+aux_x);
-	v_esquerda = validaProximo(mapa, (aux_y*35)+aux_x-1);
+    bool v_cima=false, v_direita=false, v_baixo=false, v_esquerda=false;
 
-	if(direcao_atual == CIMA)
-	{
-		/* Sem saída */
-		if(!v_cima && !v_direita && !v_esquerda) direcao_atual = BAIXO;
-		/* Uma opção */
-		else if(!v_cima && v_direita && !v_esquerda) direcao_atual = DIREITA;
-		else if(!v_cima && !v_direita && v_esquerda) direcao_atual = ESQUERDA;
-		/* Duas opções */
-		else if(v_cima && v_direita && !v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = CIMA;
-			else direcao_atual = DIREITA;
-		}
-		else if(v_cima && !v_direita && v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = CIMA;
-			else direcao_atual = ESQUERDA;
-		}
-		else if(!v_cima && v_direita && v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = DIREITA;
-			else direcao_atual = ESQUERDA;
-		}
-		else if(v_cima && v_direita && v_esquerda)
-		{
-			aux = rand() % 3;
-			if(aux == 0) direcao_atual = CIMA;
-			else if(aux == 1) direcao_atual = DIREITA;
-			else direcao_atual = ESQUERDA;
-		}
-	}
-	else if(direcao_atual == DIREITA)
-	{
-		/* Sem saída */
-		if(!v_cima && !v_baixo && !v_direita) direcao_atual = ESQUERDA;
-		/* Uma opção */
-		else if(!v_cima && v_baixo && !v_direita) direcao_atual = BAIXO;
-		else if(v_cima && !v_baixo && !v_direita) direcao_atual = CIMA;
-		/* Duas opções */
-		else if(v_cima && v_baixo && !v_direita)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = CIMA;
-			else direcao_atual = BAIXO;
-		}
-		else if(v_cima && !v_baixo && v_direita)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = CIMA;
-			else direcao_atual = DIREITA;
-		}
-		else if(!v_cima && v_baixo && v_direita)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = BAIXO;
-			else direcao_atual = DIREITA;
-		}
-		else if(v_cima && v_baixo && v_direita)
-		{
-			aux = rand() % 3;
-			if(aux == 0) direcao_atual = CIMA;
-			else if(aux == 1) direcao_atual = DIREITA;
-			else direcao_atual = BAIXO;
-		}
-	}
-	else if(direcao_atual == BAIXO)
-	{
-		/* Sem saída */
-		if(!v_esquerda && !v_baixo && !v_direita) direcao_atual = CIMA;
-		/* Uma opção */
-		else if(!v_baixo && v_direita && !v_esquerda) direcao_atual = DIREITA;
-		else if(!v_baixo && !v_direita && v_esquerda) direcao_atual = ESQUERDA;
-		/* Duas opções */
-		else if(v_baixo && v_direita && !v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = BAIXO;
-			else direcao_atual = DIREITA;
-		}
-		else if(v_baixo && !v_direita && v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = BAIXO;
-			else direcao_atual = ESQUERDA;
-		}
-		else if(!v_baixo && v_direita && v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = DIREITA;
-			else direcao_atual = ESQUERDA;
-		}
-		else if(v_baixo && v_direita && v_esquerda)
-		{
-			aux = rand() % 3;
-			if(aux == 0) direcao_atual = BAIXO;
-			else if(aux == 1) direcao_atual = DIREITA;
-			else direcao_atual = ESQUERDA;
-		}
-	}
-	else if(direcao_atual == ESQUERDA)
-	{
-		/* Sem saída */
-		if(!v_esquerda && !v_baixo && !v_cima) direcao_atual = DIREITA;
-		/* Uma opção */
-		else if(!v_cima && v_baixo && !v_esquerda) direcao_atual = BAIXO;
-		else if(v_cima && !v_baixo && !v_esquerda) direcao_atual = CIMA;
-		/* Duas opções */
-		else if(v_cima && v_baixo && !v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = CIMA;
-			else direcao_atual = BAIXO;
-		}
-		else if(v_cima && !v_baixo && v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = CIMA;
-			else direcao_atual = ESQUERDA;
-		}
-		else if(!v_cima && v_baixo && v_esquerda)
-		{
-			aux = rand() % 2;
-			if(aux == 0) direcao_atual = BAIXO;
-			else direcao_atual = ESQUERDA;
-		}
-		else if(v_cima && v_baixo && v_esquerda)
-		{
-			aux = rand() % 3;
-			if(aux == 0) direcao_atual = CIMA;
-			else if(aux == 1) direcao_atual = BAIXO;
-			else direcao_atual = ESQUERDA;
-		}
-	}
+    v_cima = validaProximo(mapa, ((aux_y-1)*35)+aux_x);
+    v_direita = validaProximo(mapa, (aux_y*35)+aux_x+1);
+    v_baixo = validaProximo(mapa, ((aux_y+1)*35)+aux_x);
+    v_esquerda = validaProximo(mapa, (aux_y*35)+aux_x-1);
+
+    if(direcao_atual == CIMA)
+    {
+        /* Sem saída */
+        if(!v_cima && !v_direita && !v_esquerda) direcao_atual = BAIXO;
+        /* Uma opção */
+        else if(!v_cima && v_direita && !v_esquerda) direcao_atual = DIREITA;
+        else if(!v_cima && !v_direita && v_esquerda) direcao_atual = ESQUERDA;
+        /* Duas opções */
+        else if(v_cima && v_direita && !v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = CIMA;
+            else direcao_atual = DIREITA;
+        }
+        else if(v_cima && !v_direita && v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = CIMA;
+            else direcao_atual = ESQUERDA;
+        }
+        else if(!v_cima && v_direita && v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = DIREITA;
+            else direcao_atual = ESQUERDA;
+        }
+        else if(v_cima && v_direita && v_esquerda)
+        {
+            aux = rand() % 3;
+            if(aux == 0) direcao_atual = CIMA;
+            else if(aux == 1) direcao_atual = DIREITA;
+            else direcao_atual = ESQUERDA;
+        }
+    }
+    else if(direcao_atual == DIREITA)
+    {
+        /* Sem saída */
+        if(!v_cima && !v_baixo && !v_direita) direcao_atual = ESQUERDA;
+        /* Uma opção */
+        else if(!v_cima && v_baixo && !v_direita) direcao_atual = BAIXO;
+        else if(v_cima && !v_baixo && !v_direita) direcao_atual = CIMA;
+        /* Duas opções */
+        else if(v_cima && v_baixo && !v_direita)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = CIMA;
+            else direcao_atual = BAIXO;
+        }
+        else if(v_cima && !v_baixo && v_direita)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = CIMA;
+            else direcao_atual = DIREITA;
+        }
+        else if(!v_cima && v_baixo && v_direita)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = BAIXO;
+            else direcao_atual = DIREITA;
+        }
+        else if(v_cima && v_baixo && v_direita)
+        {
+            aux = rand() % 3;
+            if(aux == 0) direcao_atual = CIMA;
+            else if(aux == 1) direcao_atual = DIREITA;
+            else direcao_atual = BAIXO;
+        }
+    }
+    else if(direcao_atual == BAIXO)
+    {
+        /* Sem saída */
+        if(!v_esquerda && !v_baixo && !v_direita) direcao_atual = CIMA;
+        /* Uma opção */
+        else if(!v_baixo && v_direita && !v_esquerda) direcao_atual = DIREITA;
+        else if(!v_baixo && !v_direita && v_esquerda) direcao_atual = ESQUERDA;
+        /* Duas opções */
+        else if(v_baixo && v_direita && !v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = BAIXO;
+            else direcao_atual = DIREITA;
+        }
+        else if(v_baixo && !v_direita && v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = BAIXO;
+            else direcao_atual = ESQUERDA;
+        }
+        else if(!v_baixo && v_direita && v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = DIREITA;
+            else direcao_atual = ESQUERDA;
+        }
+        else if(v_baixo && v_direita && v_esquerda)
+        {
+            aux = rand() % 3;
+            if(aux == 0) direcao_atual = BAIXO;
+            else if(aux == 1) direcao_atual = DIREITA;
+            else direcao_atual = ESQUERDA;
+        }
+    }
+    else if(direcao_atual == ESQUERDA)
+    {
+        /* Sem saída */
+        if(!v_esquerda && !v_baixo && !v_cima) direcao_atual = DIREITA;
+        /* Uma opção */
+        else if(!v_cima && v_baixo && !v_esquerda) direcao_atual = BAIXO;
+        else if(v_cima && !v_baixo && !v_esquerda) direcao_atual = CIMA;
+        /* Duas opções */
+        else if(v_cima && v_baixo && !v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = CIMA;
+            else direcao_atual = BAIXO;
+        }
+        else if(v_cima && !v_baixo && v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = CIMA;
+            else direcao_atual = ESQUERDA;
+        }
+        else if(!v_cima && v_baixo && v_esquerda)
+        {
+            aux = rand() % 2;
+            if(aux == 0) direcao_atual = BAIXO;
+            else direcao_atual = ESQUERDA;
+        }
+        else if(v_cima && v_baixo && v_esquerda)
+        {
+            aux = rand() % 3;
+            if(aux == 0) direcao_atual = CIMA;
+            else if(aux == 1) direcao_atual = BAIXO;
+            else direcao_atual = ESQUERDA;
+        }
+    }
 
 
-	atualizaCachorro();
+    atualizaCachorro();
 }
 
 int desenhaMapa(int mapa[770][3], bool envio[4])
 {
-	int x, y, tipo;
+    int x, y, tipo;
 
-	for(int i = 0; i < 770; i++)
-	{
-		x = mapa[i][0];
-		y = mapa[i][1];
-		tipo = mapa[i][2];
-		
-		if(tipo == 0)
-			al_draw_bitmap(caminho, x + margem_x, y + margem_y, 0);
-		else if(tipo == 1)
-			al_draw_bitmap(parede, x + margem_x, y + margem_y, 0);
-		else if(tipo == 2)
-		{
-			if(envio[VERMELHO] == false)
-			{
-				al_draw_bitmap(p_vermelho, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 6;
-				al_draw_bitmap(pa_vermelho, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 3)
-		{
-			if(envio[AZUL] == false)
-			{
-				al_draw_bitmap(p_azul, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 7;
-				al_draw_bitmap(pa_azul, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 4)
-		{
-			if(envio[VERDE] == false)
-			{
-				al_draw_bitmap(p_verde, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 8;
-				al_draw_bitmap(pa_verde, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 5)
-		{
-			if(envio[AMARELO] == false)
-			{
-				al_draw_bitmap(p_amarelo, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 9;
-				al_draw_bitmap(pa_amarelo, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 6)
-		{
-			if(envio[VERMELHO] == false)
-			{
-				al_draw_bitmap(pa_vermelho, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 2;
-				al_draw_bitmap(p_vermelho, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 7)
-		{
-			if(envio[AZUL] == false)
-			{
-				al_draw_bitmap(pa_azul, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 3;
-				al_draw_bitmap(p_azul, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 8)
-		{
-			if(envio[VERDE] == false)
-			{
-				al_draw_bitmap(pa_verde, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 4;
-				al_draw_bitmap(p_verde, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 9)
-		{
-			if(envio[AMARELO] == false)
-			{
-				al_draw_bitmap(pa_amarelo, x + margem_x, y + margem_y, 0);
-			}
-			else
-			{
-				mapa[i][2] = 5;
-				al_draw_bitmap(p_amarelo, x + margem_x, y + margem_y, 0);
-			}
-		}
-		else if(tipo == 10 && pos_x_cachorro == 0 && pos_y_cachorro == 0)
-		{
-			printf("i: %d - x: %d - y: %d\n", i, x, y);
-			pos_x_cachorro = x;
-			pos_y_cachorro = y;
-			al_draw_bitmap(cachorro, x + margem_x, y + margem_y, 0);
-		}
-	}
+    for(int i = 0; i < 770; i++)
+    {
+        x = mapa[i][0];
+        y = mapa[i][1];
+        tipo = mapa[i][2];
 
-	if(envio[VERMELHO] == true)
-		envio[VERMELHO] = false;
-	if(envio[AZUL] == true)
-		envio[AZUL] = false;
-	if(envio[VERDE] == true)
-		envio[VERDE] = false;
-	if(envio[AMARELO] == true)
-		envio[AMARELO] = false;
+        if(tipo == 0)
+            al_draw_bitmap(caminho, x + margem_x, y + margem_y, 0);
+        else if(tipo == 1)
+            al_draw_bitmap(parede, x + margem_x, y + margem_y, 0);
+        else if(tipo == 2)
+        {
+            if(envio[VERMELHO] == false)
+            {
+                al_draw_bitmap(p_vermelho, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 6;
+                al_draw_bitmap(pa_vermelho, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 3)
+        {
+            if(envio[AZUL] == false)
+            {
+                al_draw_bitmap(p_azul, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 7;
+                al_draw_bitmap(pa_azul, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 4)
+        {
+            if(envio[VERDE] == false)
+            {
+                al_draw_bitmap(p_verde, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 8;
+                al_draw_bitmap(pa_verde, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 5)
+        {
+            if(envio[AMARELO] == false)
+            {
+                al_draw_bitmap(p_amarelo, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 9;
+                al_draw_bitmap(pa_amarelo, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 6)
+        {
+            if(envio[VERMELHO] == false)
+            {
+                al_draw_bitmap(pa_vermelho, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 2;
+                al_draw_bitmap(p_vermelho, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 7)
+        {
+            if(envio[AZUL] == false)
+            {
+                al_draw_bitmap(pa_azul, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 3;
+                al_draw_bitmap(p_azul, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 8)
+        {
+            if(envio[VERDE] == false)
+            {
+                al_draw_bitmap(pa_verde, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 4;
+                al_draw_bitmap(p_verde, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 9)
+        {
+            if(envio[AMARELO] == false)
+            {
+                al_draw_bitmap(pa_amarelo, x + margem_x, y + margem_y, 0);
+            }
+            else
+            {
+                mapa[i][2] = 5;
+                al_draw_bitmap(p_amarelo, x + margem_x, y + margem_y, 0);
+            }
+        }
+        else if(tipo == 10 && pos_x_cachorro == 0 && pos_y_cachorro == 0)
+        {
+            printf("i: %d - x: %d - y: %d\n", i, x, y);
+            pos_x_cachorro = x;
+            pos_y_cachorro = y;
+            //al_draw_bitmap(cachorro_lado, x + margem_x, y + margem_y, 0);
+            atualizaCachorro();
+        }
+    }
+
+    if(envio[VERMELHO] == true)
+        envio[VERMELHO] = false;
+    if(envio[AZUL] == true)
+        envio[AZUL] = false;
+    if(envio[VERDE] == true)
+        envio[VERDE] = false;
+    if(envio[AMARELO] == true)
+        envio[AMARELO] = false;
 }
 
 int main(int argc, char **argv)
@@ -442,41 +477,41 @@ int main(int argc, char **argv)
     bool redraw = true;
     bool doexit = false;
     float posicao = 0;
-	int mapa[770][3];
+    int mapa[770][3];
     bool envio[4] = { false, false, false, false };
 
 
-	//Inicia o allegro
+    //Inicia o allegro
     al_init();
     al_init_image_addon();
     al_install_keyboard();
 
-	inicializaBitmaps();
-	lerConf(mapa);
+    inicializaBitmaps();
+    lerConf(mapa);
 
-	//Cria a lista de eventos
+    //Cria a lista de eventos
     event_queue = al_create_event_queue();
 
-	//Cria o timer
+    //Cria o timer
     timer = al_create_timer(1.0 / FPS);
 
-	//Cria a janela
+    //Cria a janela
     display = al_create_display(SCREEN_W, SCREEN_H);
 
-	//Limpa a janela com a cor preta
+    //Limpa a janela com a cor preta
     al_clear_to_color(al_map_rgb(0, 0, 0));
-    
-	//Carrega a imagem de fundo na variável
+
+    //Carrega a imagem de fundo na variável
     background = al_load_bitmap("img/fundo.png");
-	//Desenha a imagem de fundo na posição (0,0)
+    //Desenha a imagem de fundo na posição (0,0)
     al_draw_bitmap(background, 0, 0, 0);
 
-	//Carrega a imagem do seletor na variável
+    //Carrega a imagem do seletor na variável
     seletor = al_load_bitmap("img/selecao.png");
-	//Desenha o seletor na posição (1174,40)
+    //Desenha o seletor na posição (1174,40)
     al_draw_bitmap(seletor, 1174, 40, 0);
 
-	desenhaMapa(mapa, envio);
+    desenhaMapa(mapa, envio);
 
     //Registra os eventos
     al_register_event_source(event_queue, al_get_display_event_source(display));
@@ -488,14 +523,14 @@ int main(int argc, char **argv)
     //Inicia o timer
     al_start_timer(timer);
 
-	//While do jogo
+    //While do jogo
     while(!doexit)
     {
-		//Aguarda o evento
+        //Aguarda o evento
         ALLEGRO_EVENT ev;
         al_wait_for_event(event_queue, &ev);
 
-		//Se der o tempo do timer, verifica qual tecla foi pressionada e se é possível se mover para a posição de destino
+        //Se der o tempo do timer, verifica qual tecla foi pressionada e se é possível se mover para a posição de destino
         if(ev.type == ALLEGRO_EVENT_TIMER)
         {
             if(key[KEY_LEFT] && (posicao == 1 || posicao == 3)) {
@@ -529,14 +564,14 @@ int main(int argc, char **argv)
 
             redraw = true;
         }
-		//Se a janela for fechada, termina o jogo
+        //Se a janela for fechada, termina o jogo
         else if(ev.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
             break;
         }
-		//Se o evento for um tecla pressionada, seta a variável dessa tecla para "true" (pressionada)
+        //Se o evento for um tecla pressionada, seta a variável dessa tecla para "true" (pressionada)
         else if(ev.type == ALLEGRO_EVENT_KEY_DOWN) {
             switch(ev.keyboard.keycode) {
-                case ALLEGRO_KEY_LEFT: 
+                case ALLEGRO_KEY_LEFT:
                     key[KEY_LEFT] = true;
                     break;
 
@@ -553,10 +588,10 @@ int main(int argc, char **argv)
                     break;
             }
         }
-		//Se o evento for um tecla solta, seta a variável dessa tecla para "false" (caso seja Esc, encerra o programa)
+        //Se o evento for um tecla solta, seta a variável dessa tecla para "false" (caso seja Esc, encerra o programa)
         else if(ev.type == ALLEGRO_EVENT_KEY_UP) {
-            switch(ev.keyboard.keycode) { 
-                case ALLEGRO_KEY_LEFT: 
+            switch(ev.keyboard.keycode) {
+                case ALLEGRO_KEY_LEFT:
                     key[KEY_LEFT] = false;
                     break;
 
@@ -575,32 +610,32 @@ int main(int argc, char **argv)
                 case ALLEGRO_KEY_DOWN:
                     key[KEY_DOWN] = false;
                     break;
-				case ALLEGRO_KEY_ENTER:
-					if(posicao == 0)
-						envio[VERMELHO] = true;
-					else if(posicao == 1)
-						envio[AZUL] = true;
-					else if(posicao == 2)
-						envio[VERDE] = true;
-					else if(posicao == 3)
-						envio[AMARELO] = true;
-					
+                case ALLEGRO_KEY_ENTER:
+                    if(posicao == 0)
+                        envio[VERMELHO] = true;
+                    else if(posicao == 1)
+                        envio[AZUL] = true;
+                    else if(posicao == 2)
+                        envio[VERDE] = true;
+                    else if(posicao == 3)
+                        envio[AMARELO] = true;
+
             }
         }
 
-		//Redesenha o jogo
+        //Redesenha o jogo
         if(redraw && al_is_event_queue_empty(event_queue))
         {
             redraw = false;
             al_draw_bitmap(background, 0, 0, 0);
-			desenhaMapa(mapa, envio);
-			movimento(mapa);
+            desenhaMapa(mapa, envio);
+            movimento(mapa);
             al_draw_bitmap(seletor, seletor_x, seletor_y, 0);
             al_flip_display();
         }
     }
 
-	//Destrói os objetos
+    //Destrói os objetos
     al_destroy_bitmap(background);
     al_destroy_bitmap(seletor);
     al_destroy_timer(timer);
