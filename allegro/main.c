@@ -62,7 +62,6 @@ int janela_aberta = 0;
 int pergunta_selecionada = 0;
 
 ALLEGRO_FONT *font;
-char *texto = "Uma string qualquer";
 
 const char *perguntas[45];
 const char *respostas[135];
