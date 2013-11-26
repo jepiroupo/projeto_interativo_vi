@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include<time.h>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
@@ -70,6 +71,7 @@ const char *sorteadas[45];
 int numero = 0;
 int atual = 0;
 int libera_portas = 0;
+char *cor[1];
 
 void leituraPerguntas(){
     perguntas[0] = "Qual o país que tem a forma de uma bota?";
@@ -485,58 +487,75 @@ void inicializaBitmaps(){
 }
 
 bool validaProximo(int mapa[770][3], int posicao){
-    if(mapa[posicao][2] == 0)
+    if(mapa[posicao][2] == 0){
         return true;
-    else if(mapa[posicao][2] == 6)
+    }
+    else if(mapa[posicao][2] == 6){
         return true;
-    else if(mapa[posicao][2] == 7)
+    }
+    else if(mapa[posicao][2] == 7){
         return true;
-    else if(mapa[posicao][2] == 8)
+    }
+    else if(mapa[posicao][2] == 8){
         return true;
-    else if(mapa[posicao][2] == 9)
+    }
+    else if(mapa[posicao][2] == 9){
         return true;
-    else if(mapa[posicao][2] == 10)
+    }
+    else if(mapa[posicao][2] == 10){
         return true;
-    else if(mapa[posicao][2] == 11)
+    }
+    else if(mapa[posicao][2] == 11){
+        cor[0] = "AMARELO";
+        janela_aberta = 2;
         return true;
-    else if(mapa[posicao][2] == 12)
+    }
+    else if(mapa[posicao][2] == 12){
+        cor[0] = "AZUL";
+        janela_aberta = 2;
         return true;
-    else if(mapa[posicao][2] == 13)
+    }
+    else if(mapa[posicao][2] == 13){
+        cor[0] = "VERDE";
+        janela_aberta = 2;
         return true;
-    else if(mapa[posicao][2] == 14)
+    }
+    else if(mapa[posicao][2] == 14){
+        cor[0] = "AMARELO";
+        janela_aberta = 2;
         return true;
+    }
     return false;
 }
 
 int atualizaCachorro(){
     int flags = 0;
-    if(direcao_atual == 0){
+    if((direcao_atual == 0) && ((janela_aberta == 0) || (janela_aberta == 1))){
         flags = 0;
         pos_y_cachorro = pos_y_cachorro - 8;
         sprite = al_create_sub_bitmap(cachorro_cima, frame_cachorro * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
         al_draw_bitmap(sprite, pos_x_cachorro + margem_x, pos_y_cachorro + margem_y, flags);
 
     }
-    else if(direcao_atual == 1){
+    else if((direcao_atual == 1) && ((janela_aberta == 0) || (janela_aberta == 1))){
         flags = ALLEGRO_FLIP_HORIZONTAL;
         pos_x_cachorro = pos_x_cachorro + 8;
         sprite = al_create_sub_bitmap(cachorro_lado, frame_cachorro * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
         al_draw_bitmap(sprite, pos_x_cachorro + margem_x, pos_y_cachorro + margem_y, flags);
 
     }
-    else if(direcao_atual == 2){
+    else if((direcao_atual == 2) && ((janela_aberta == 0) || (janela_aberta == 1))){
         flags = 0;
         pos_y_cachorro = pos_y_cachorro + 8;
         sprite = al_create_sub_bitmap(cachorro_baixo, frame_cachorro * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
         al_draw_bitmap(sprite, pos_x_cachorro + margem_x, pos_y_cachorro + margem_y, flags);
 
     }
-    else if(direcao_atual == 3){
+    else if((direcao_atual == 3) && ((janela_aberta == 0) || (janela_aberta == 1))){
         flags = 0;
         pos_x_cachorro = pos_x_cachorro - 8;
         sprite = al_create_sub_bitmap(cachorro_lado, frame_cachorro * SPRITE_SIZE, 0, SPRITE_SIZE, SPRITE_SIZE);
         al_draw_bitmap(sprite, pos_x_cachorro + margem_x, pos_y_cachorro + margem_y, flags);
-
     }
 }
 
@@ -981,6 +1000,8 @@ int main(int argc, char **argv){
                     }else if (janela_aberta == 1){
                         confere(numero);
                         janela_aberta = 0;
+                    }else if (janela_aberta == 2){
+                        return 0;
                     }
 
             }
@@ -997,7 +1018,7 @@ int main(int argc, char **argv){
                     janela_aberta = 1;
                     pergunta_selecionada = 0;
                 }
-            }else{
+            }else if (janela_aberta == 1){
                 al_draw_bitmap(imagemPerguntas, 0, 0, 0);
                 if (pergunta_selecionada == 0){
                     numero = rand() % 45;
@@ -1008,6 +1029,9 @@ int main(int argc, char **argv){
                     seleciona_pergunta(numero);
                 }
                 initClock();
+            }else if (janela_aberta == 2){
+                al_draw_bitmap(imagemPerguntas, 0, 0, 0);
+                al_draw_textf(font, al_map_rgb(255, 255, 255), SCREEN_W / 2, SCREEN_H / 2, ALLEGRO_ALIGN_CENTER, "O Jogador %s ganhou!", cor[0]);
             }
 
             al_draw_bitmap(seletor, seletor_x, seletor_y, 0);
