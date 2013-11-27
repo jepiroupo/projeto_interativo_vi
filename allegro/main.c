@@ -105,7 +105,7 @@ void leituraPerguntas(){
 	corretas[4] = "b";
 
 	perguntas[5] = "Em que país é localizado a torre Eiffel?";
-	respostas[15] = "a) Paris.";
+	respostas[15] = "a) França.";
 	respostas[16] = "b) Itália.";
 	respostas[17] = "c) Austrália.";
     corretas[5] = "a";
@@ -418,7 +418,14 @@ void lerConf(int mapa[770][3]){
 
     int contador_item = 0;
 
-    fp = fopen("map/map1.txt","r");
+    /*char *labirinto = "map/labirinto";
+    int sort_labirinto = (rand() % 2) + 1;
+    char aux[1] = "";
+    sprintf(aux, "%d", sort_labirinto);
+    strcat(labirinto, aux);
+    strcat(labirinto, ".txt");*/
+
+    fp = fopen("map/labirinto1.txt","r");
 
     if( fp == NULL ){
         perror("Error while opening the file.\n");
@@ -506,7 +513,7 @@ bool validaProximo(int mapa[770][3], int posicao){
         return true;
     }
     else if(mapa[posicao][2] == 11){
-        cor[0] = "AMARELO";
+        cor[0] = "VERMELHO";
         janela_aberta = 2;
         return true;
     }
@@ -806,11 +813,14 @@ int desenhaMapa(int mapa[770][3], bool envio[4]){
     al_draw_text(font, al_map_rgb(255, 0, 0), (SCREEN_W / 2) + 530, 325, ALLEGRO_ALIGN_CENTRE, "Jogador 1");
     al_draw_textf(font, al_map_rgb(255, 0, 0), SCREEN_W / 2 + 655, 325, ALLEGRO_ALIGN_LEFT, "%d", libera_portas);
     al_draw_text(font, al_map_rgb(0, 255, 0), (SCREEN_W / 2) + 530, 366, ALLEGRO_ALIGN_CENTRE, "Jogador 2");
-    al_draw_textf(font, al_map_rgb(0, 255, 0), SCREEN_W / 2 + 655, 366, ALLEGRO_ALIGN_LEFT, "%d", libera_portas);
+    //al_draw_textf(font, al_map_rgb(0, 255, 0), SCREEN_W / 2 + 655, 366, ALLEGRO_ALIGN_LEFT, "%d", libera_portas);
+    al_draw_textf(font, al_map_rgb(0, 255, 0), SCREEN_W / 2 + 655, 366, ALLEGRO_ALIGN_LEFT, "0");
     al_draw_text(font, al_map_rgb(0, 0, 255), (SCREEN_W / 2) + 530, 407, ALLEGRO_ALIGN_CENTRE, "Jogador 3");
-    al_draw_textf(font, al_map_rgb(0, 0, 255), SCREEN_W / 2 + 655, 407, ALLEGRO_ALIGN_LEFT, "%d", libera_portas);
+    //al_draw_textf(font, al_map_rgb(0, 0, 255), SCREEN_W / 2 + 655, 407, ALLEGRO_ALIGN_LEFT, "%d", libera_portas);
+    al_draw_textf(font, al_map_rgb(0, 0, 255), SCREEN_W / 2 + 655, 407, ALLEGRO_ALIGN_LEFT, "0");
     al_draw_text(font, al_map_rgb(255, 255, 0), (SCREEN_W / 2) + 530, 448, ALLEGRO_ALIGN_CENTRE, "Jogador 4");
-    al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_W / 2 + 655, 448, ALLEGRO_ALIGN_LEFT, "%d", libera_portas);
+    //al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_W / 2 + 655, 448, ALLEGRO_ALIGN_LEFT, "%d", libera_portas);
+    al_draw_textf(font, al_map_rgb(255, 255, 0), SCREEN_W / 2 + 655, 448, ALLEGRO_ALIGN_LEFT, "0");
 }
 
 int main(int argc, char **argv){
@@ -1001,6 +1011,13 @@ int main(int argc, char **argv){
                         confere(numero);
                         janela_aberta = 0;
                     }else if (janela_aberta == 2){
+
+                        al_destroy_bitmap(background);
+                        al_destroy_bitmap(seletor);
+                        al_destroy_timer(timer);
+                        al_destroy_display(display);
+                        al_destroy_event_queue(event_queue);
+
                         return 0;
                     }
 
